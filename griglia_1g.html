@@ -83,7 +83,19 @@
         };
 
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        const db = firebase.database();const auth = firebase.auth();
+const provider = new firebase.auth.GoogleAuthProvider();
+
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    console.log("Loggato come:", user.email);
+  } else {
+    // Se non sei ancora loggato su questo dispositivo, apre il login Google
+    auth.signInWithPopup(provider).catch((error) => {
+      console.error("Errore login:", error);
+    });
+  }
+});
         const classRef = db.ref('classi/1G');
 
         const studentsData = [
